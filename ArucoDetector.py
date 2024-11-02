@@ -45,7 +45,7 @@ def FindBoard(projectBack=False):
             
 
         else:
-            #cv2.imshow('Frame', frame_markers)
+            cv2.imshow('Frame', frame_markers)
             pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -112,7 +112,7 @@ def ProjectBack(img_data, startSquare, endSquare):
             warped_back_masked = cv2.bitwise_and(warped_back, warped_back, mask=mask)
             im_out = cv2.add(frame_masked, warped_back_masked)
 
-        cv2.imshow('Frame', im_out)
+            cv2.imshow('Frame', im_out)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -186,14 +186,14 @@ def ClassifySquare(img):
 if __name__ == "__main__":
     seed = 2
     squares, _ = GetSquares()
-    for row in squares:
-        for i, square in enumerate(row):
-            if i == seed:
-                square = ToPIL(square)
-                square.save(f"Training Data/blackKing/{i}.png")
+    # for row in squares:
+    #     for i, square in enumerate(row):
+    #         if i == seed:
+    #             square = ToPIL(square)
+    #             square.save(f"Training Data/blackKing/{i}.png")
             
             #seed += 1
-        break
+    #     break
 # # board = None
 # # while board == None:
 # #     board = FindBoard()
