@@ -45,7 +45,8 @@ def FindBoard(projectBack=False):
             
 
         else:
-            cv2.imshow('Frame', frame_markers)
+            #cv2.imshow('Frame', frame_markers)
+            pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -183,14 +184,15 @@ def ClassifySquare(img):
     
 
 if __name__ == "__main__":
-    seed = 0
+    seed = 2
     squares, _ = GetSquares()
     for row in squares:
-        for square in row:
-            square = ToPIL(square)
-            square.save(f"Training Data/whiteKing/{seed}.png")
-            break
-            seed += 1
+        for i, square in enumerate(row):
+            if i == seed:
+                square = ToPIL(square)
+                square.save(f"Training Data/blackKing/{i}.png")
+            
+            #seed += 1
         break
 # # board = None
 # # while board == None:
