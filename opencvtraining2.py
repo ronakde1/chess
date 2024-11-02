@@ -11,20 +11,20 @@ def load_images_and_labels(data_directory):
     images = []
     labels = []
     label_map = {
-    'Black Empty': 0,
-    'White Empty': 1,
-    'Black Pawn': 2,
-    'Black Bishop': 3,
-    'Black Knight': 4,
-    'Black Rook': 5,
-    'Black Queen': 6,
-    'Black King': 7,
-    'White Pawn': 8,
-    'White Bishop': 9,
-    'White Knight': 10,
-    'White Rook': 11,
-    'White Queen': 12,
-    'White King': 13
+    'blackEmpty': 0,
+    'whiteEmpty': 1,
+    'blackPawn': 2,
+    'blackBishop': 3,
+    'blackKnight': 4,
+    'blackRook': 5,
+    'blackQueen': 6,
+    'blackKing': 7,
+    'whitePawn': 8,
+    'whiteBishop': 9,
+    'whiteKnight': 10,
+    'whiteRook': 11,
+    'whiteQueen': 12,
+    'whiteKing': 13
     }
 
     for label_name, label in label_map.items():

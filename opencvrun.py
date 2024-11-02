@@ -6,7 +6,23 @@ from joblib import load  # Import joblib for loading the model
 classifier = load('checker_classifier.joblib')
 
 # Define the class names based on your label mapping
-class_names = ["red_checker", "blue_checker", "no_checker_white", "no_checker_black"]
+class_names = [
+    'blackEmpty',
+    'whiteEmpty',
+    'blackPawn',
+    'blackBishop',
+    'blackKnight',
+    'blackRook',
+    'blackQueen',
+    'blackKing',
+    'whitePawn',
+    'whiteBishop',
+    'whiteKnight',
+    'whiteRook',
+    'whiteQueen',
+    'whiteKing'
+]
+
 
 # Function to preprocess the image and make a prediction
 def predict_image(image_path):
@@ -28,9 +44,24 @@ def predict_image(image_path):
 
 # Main function to run the program
 def main():
-    for i in [1,2,79,80,139,140]:
+    for i in [
+    'blackEmpty',
+    'whiteEmpty',
+    'blackPawn',
+    'blackBishop',
+    'blackKnight',
+    'blackRook',
+    'blackQueen',
+    'blackKing',
+    'whitePawn',
+    'whiteBishop',
+    'whiteKnight',
+    'whiteRook',
+    'whiteQueen',
+    'whiteKing'
+]:
         # Input image path from the user
-        image_path = f"{i}.png"
+        image_path = f"testing/{i}.png"
         
         # Get the predicted class
         predicted_label_index = predict_image(image_path)
