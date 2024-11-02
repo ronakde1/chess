@@ -9,7 +9,7 @@ import numpy as np
 IMG_HEIGHT = 37  # Height of images
 IMG_WIDTH = 37   # Width of images
 BATCH_SIZE = 32   # Number of images to process in a batch
-EPOCHS = 50       # Number of training epochs
+EPOCHS = 100       # Number of training epochs
 LEARNING_RATE = 0.001  # Learning rate for optimizer
 
 # Load and preprocess data
