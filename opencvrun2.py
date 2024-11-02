@@ -11,19 +11,19 @@ class_squares = [
     None,
     None,
 
-    Stockfish.Piece.BLACK_PAWN,
-    Stockfish.Piece.BLACK_BISHOP,
-    Stockfish.Piece.BLACK_KNIGHT,
-    Stockfish.Piece.BLACK_ROOK,
-    Stockfish.Piece.BLACK_QUEEN,
-    Stockfish.Piece.BLACK_KING,
+    "p",
+    "b",
+    "n",
+    "r",
+    "q",
+    "k",
 
-    Stockfish.Piece.WHITE_PAWN,
-    Stockfish.Piece.WHITE_BISHOP,
-    Stockfish.Piece.WHITE_KNIGHT,
-    Stockfish.Piece.WHITE_ROOK,
-    Stockfish.Piece.WHITE_QUEEN,
-    Stockfish.Piece.WHITE_KING,
+    "P",
+    "B",
+    "N",
+    "R",
+    "Q",
+    "K",
 ]
 
 # Function to preprocess the image and make a prediction
@@ -38,7 +38,7 @@ def predict_image_from_path(image_path):
     return classify(image)
 
 
-def classify(image) -> Stockfish.Piece:
+def classify(image) -> None | str:
     # Resize and normalize the image
     image_resized = cv2.resize(image, (64, 64)).astype('float32') / 255.0
     image_flat = image_resized.flatten().reshape(1, -1)  # Flatten the image
