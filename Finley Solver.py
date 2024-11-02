@@ -1,5 +1,10 @@
 import chess
 import chess.engine
 
-board = chess.Board()
-engine = chess.engine.SimpleEngine.popen_uci("Engine/stockfish-windows-2022-x86-64-modern.exe")
+engine = chess.engine.SimpleEngine.popen_uci("stockfish/stockfish-macos-m1-apple-silicon")
+def BestMove(fenString):
+    board = chess.Board(fen=fenString)
+    move = engine.play(board, chess.engine.Limit(time=0.5)).move
+    return ((move.from_square // 8, move.from_square % 8), (move.to_square // 8, move.to_square % 8))
+
+print(BestMove(chess.STARTING_FEN))
