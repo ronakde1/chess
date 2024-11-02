@@ -1,7 +1,7 @@
 import opencvrun2
 import ArucoDetector
 import chessSolver
-from chess import Move
+import classify2
 
 def main():
     while True:
@@ -11,7 +11,7 @@ def main():
         empty_count = 0
         for row in images:
             for image in row:
-                classified = opencvrun2.classify(image)
+                classified = classify2.classify_image(image)
                 if classified is None:
                     empty_count += 1
                 else:
