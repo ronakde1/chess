@@ -45,7 +45,7 @@ def FindBoard(projectBack=False):
             
 
         else:
-            #cv2.imshow('Frame', frame_markers)
+            cv2.imshow('Frame', frame_markers)
             pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
