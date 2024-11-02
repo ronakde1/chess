@@ -41,11 +41,11 @@ def FindBoard(projectBack=False):
             #warped_frame = cv2.flip(warped_frame, 1)
             #cv2.destroyAllWindows()
             #cv2.imshow("Board", warped_frame)
-            return (warped_frame, (frame, warped_frame, pts_dst, pts_src))
+            return warped_frame
             
 
         else:
-            cv2.imshow('Frame', frame_markers)
+            #cv2.imshow('Frame', frame_markers)
             pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -53,7 +53,7 @@ def FindBoard(projectBack=False):
 
     cap.release()
 
-def ProjectBack(img_data, startSquare, endSquare):
+def ProjectBack(startSquare, endSquare):
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -149,7 +149,7 @@ def DrawArrow(img, startSquare, endSquare):
     return imgWithArrow
 
 def GetSquares():
-    board, img_data = FindBoard()
+    board = FindBoard()
 
     grid_size = 8
     width, height, _ = board.shape
@@ -175,7 +175,7 @@ def GetSquares():
     #         cv2.imshow("Square", square)
     #         ClassifySquare(square)
     #         cv2.waitKey(0)
-    return (squares, img_data)
+    return squares
 
 def ClassifySquare(img):
     rgbImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -185,7 +185,7 @@ def ClassifySquare(img):
 
 if __name__ == "__main__":
     seed = 2
-    squares, _ = GetSquares()
+    squares = GetSquares()
     # for row in squares:
     #     for i, square in enumerate(row):
     #         if i == seed:
