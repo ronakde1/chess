@@ -183,19 +183,15 @@ def ClassifySquare(img):
     
 
 if __name__ == "__main__":
-    seed = 139
-    GetSquares()
-    # for row in GetSquares():
-    #     for square in row:
-    #         if seed % 2 == 0:
-    #             subfolder = "Red"
-    #         else:
-    #             subfolder = "Blue"
-    #         #ToPIL(square).save(f"Training Data/{subfolder}/{seed}.png")
-    #         seed += 1
-    #     seed += 1
-    #     if seed > 139+32:
-    #         break
+    seed = 0
+    squares, _ = GetSquares()
+    for row in squares:
+        for square in row:
+            square = ToPIL(square)
+            square.save(f"Training Data/whiteKing/{seed}.png")
+            break
+            seed += 1
+        break
 # # board = None
 # # while board == None:
 # #     board = FindBoard()
