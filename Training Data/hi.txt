@@ -1,0 +1,19 @@
+Black empty: 0
+White empty: 1
+
+Black
+Pawn: 2
+Bishop: 3
+Knight: 4
+Rook: 5
+Queen: 6
+King: 7
+
+White
+Pawn: 8
+Bishop: 9
+Knight: 10
+Rook: 11
+Queen: 12
+King: 13
+

@@ -10,7 +10,22 @@ from joblib import dump, load  # Import joblib for saving/loading models
 def load_images_and_labels(data_directory):
     images = []
     labels = []
-    label_map = {'Red': 0, 'Blue': 1, 'Empty White': 2, 'Empty Black': 3}
+    label_map = {
+    'Black Empty': 0,
+    'White Empty': 1,
+    'Black Pawn': 2,
+    'Black Bishop': 3,
+    'Black Knight': 4,
+    'Black Rook': 5,
+    'Black Queen': 6,
+    'Black King': 7,
+    'White Pawn': 8,
+    'White Bishop': 9,
+    'White Knight': 10,
+    'White Rook': 11,
+    'White Queen': 12,
+    'White King': 13
+    }
 
     for label_name, label in label_map.items():
         folder_path = os.path.join(data_directory, label_name)
@@ -57,6 +72,22 @@ def predict_image(image_path):
     return prediction
 
 # Example usage
-predicted_label = predict_image('blue.png')
-hello = predicted_label[0]
-print(["red checker", "blue checker", "no checker white", "no checker black"][hello])
+#predicted_label = predict_image('blue.png')
+#hello = predicted_label[0]
+#print([
+#    'Black Empty',
+#    'White Empty',
+#    'Black Pawn',
+#    'Black Bishop',
+#    'Black Knight',
+#    'Black Rook',
+#    'Black Queen',
+#    'Black King',
+#    'White Pawn',
+#    'White Bishop',
+#    'White Knight',
+#    'White Rook',
+#    'White Queen',
+#    'White King'
+#    ] 
+#    [hello])
