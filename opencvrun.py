@@ -42,7 +42,7 @@ def predict_image(image_path):
     predictions = classifier.predict_proba(image_flat)[0]
     idx = numpy.argmax(predictions, axis=0)
     
-    return predictions, idx, predictions[idx]  # Return the predicted class index
+    return idx, predictions[idx]  # Return the predicted class index
 
 # Main function to run the program
 def main():
