@@ -45,7 +45,7 @@ def FindBoard(projectBack=False):
             
 
         else:
-            cv2.imshow('Frame', frame_markers)
+            #cv2.imshow('Frame', frame_markers)
             pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -191,7 +191,7 @@ if __name__ == "__main__":
             square = ToPIL(square)
             square.save(f"Raw Data 4/{seed}.png")
             seed += 1
-        if seed >= 32:
+        if seed >= 16:
             break
         
         
