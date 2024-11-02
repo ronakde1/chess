@@ -184,16 +184,15 @@ def ClassifySquare(img):
     
 
 if __name__ == "__main__":
-    seed = 2
+    seed = 0
     squares = GetSquares()
-    # for row in squares:
-    #     for i, square in enumerate(row):
-    #         if i == seed:
-    #             square = ToPIL(square)
-    #             square.save(f"Training Data/blackKing/{i}.png")
-            
-            #seed += 1
-    #     break
+    for row in squares:
+        for i, square in enumerate(row):
+            if i == seed:
+                square = ToPIL(square)
+                square.save(f"Training Data/blackKing/{seed+8}.png")
+                break
+        break
 # # board = None
 # # while board == None:
 # #     board = FindBoard()
