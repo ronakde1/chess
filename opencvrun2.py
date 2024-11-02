@@ -1,19 +1,29 @@
 import cv2
 import numpy as np
 from joblib import load  # Import joblib for loading the model
-
-from solver import Square, Piece
+from stockfish import Stockfish
 
 # Load the trained SVM classifier
 classifier = load('checker_classifier.joblib')
 
 # Define the class names based on your label mapping
-class_names = ["red_checker", "blue_checker", "no_checker_white", "no_checker_black"]
 class_squares = [
-    Square(Piece(_is_king=False, _is_ai=True)),
-    Square(Piece(_is_king=False, _is_ai=False)),
-    Square(),
-    Square()
+    None,
+    None,
+
+    Stockfish.Piece.BLACK_PAWN,
+    Stockfish.Piece.BLACK_BISHOP,
+    Stockfish.Piece.BLACK_KNIGHT,
+    Stockfish.Piece.BLACK_ROOK,
+    Stockfish.Piece.BLACK_QUEEN,
+    Stockfish.Piece.BLACK_KING,
+
+    Stockfish.Piece.WHITE_PAWN,
+    Stockfish.Piece.WHITE_BISHOP,
+    Stockfish.Piece.WHITE_KNIGHT,
+    Stockfish.Piece.WHITE_ROOK,
+    Stockfish.Piece.WHITE_QUEEN,
+    Stockfish.Piece.WHITE_KING,
 ]
 
 # Function to preprocess the image and make a prediction
@@ -28,7 +38,7 @@ def predict_image_from_path(image_path):
     return classify(image)
 
 
-def classify(image) -> Square:
+def classify(image) -> Stockfish.Piece:
     # Resize and normalize the image
     image_resized = cv2.resize(image, (64, 64)).astype('float32') / 255.0
     image_flat = image_resized.flatten().reshape(1, -1)  # Flatten the image
