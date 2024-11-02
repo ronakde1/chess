@@ -191,7 +191,7 @@ if __name__ == "__main__":
             square = ToPIL(square)
             square.save(f"Raw Data 2/{seed}.png")
             seed += 1
-        if seed > 32:
+        if seed >= 32:
             break
         
         
