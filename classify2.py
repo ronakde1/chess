@@ -16,15 +16,16 @@ model = tf.keras.models.load_model(MODEL_PATH)
 print("Model loaded successfully.")
 
 # Function to load and preprocess image
-def load_and_preprocess_image(img_path):
-    img = image.load_img(img_path, target_size=(IMG_HEIGHT, IMG_WIDTH))  # Load and resize image
-    img_array = image.img_to_array(img)  # Convert image to array
+def preprocess_image_array(img_array):
+    # Resize the image array to the model's input size
+    img_array = tf.image.resize(img_array, [IMG_HEIGHT, IMG_WIDTH])
+    img_array = img_array / 255.0  # Normalize the image (same as during training)
     img_array = np.expand_dims(img_array, axis=0)  # Expand dimensions for batch compatibility
-    img_array /= 255.0  # Normalize the image (same as training)
     return img_array
 
 # Function to classify the image
 def classify_image(img):
+    img = preprocess_image_array(img)
     predictions = model.predict(img)  # Get model predictions
     predicted_class_index = np.argmax(predictions[0])  # Get index of highest probability
     predicted_class = CLASS_NAMES[predicted_class_index]  # Map to class name
