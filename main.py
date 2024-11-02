@@ -24,7 +24,8 @@ def main():
                 empty_count = 0
             fen_string += "/"
         fen_string = fen_string[:-1]
-    
+
+        print(fen_string)
         move = chessSolver.BestMove(fen_string)
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)

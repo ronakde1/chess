@@ -168,7 +168,7 @@ def GetSquares():
             
             # Crop the square and add it to the list
             square = board[top:bottom, left:right]
-            squares[row].append(square)
+            squares[7-row].append(square)
         
     # for row in squares:
     #     for square in row:
@@ -187,12 +187,14 @@ if __name__ == "__main__":
     seed = 0
     squares = GetSquares()
     for row in squares:
-        for i, square in enumerate(row):
-            if i == seed:
-                square = ToPIL(square)
-                square.save(f"Training Data/blackKing/{seed+8}.png")
-                break
-        break
+        for square in row:
+            square = ToPIL(square)
+            square.save(f"Raw Data 2/{seed}.png")
+            seed += 1
+        if seed > 32:
+            break
+        
+        
 # # board = None
 # # while board == None:
 # #     board = FindBoard()
