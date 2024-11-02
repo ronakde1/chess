@@ -79,7 +79,7 @@ def main(input_dir, output_dir):
         classify_image(image_path, output_dir)
 
 if __name__ == "__main__":
-    input_dir = "Raw Data 1"  # Set the path to your input directory here
+    input_dir = "Raw Data 4"  # Set the path to your input directory here
     output_dir = "Training Data"  # Set the path to your output directory here
 
     main(input_dir, output_dir)

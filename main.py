@@ -29,6 +29,7 @@ def main():
         move = chessSolver.BestMove(fen_string)
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)
+        ArucoDetector.ProjectBack(fromSquare, toSquare)
 
 
 if __name__ == "__main__":
