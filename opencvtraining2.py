@@ -49,7 +49,7 @@ X_train_flat = X_train.reshape(X_train.shape[0], -1)
 X_test_flat = X_test.reshape(X_test.shape[0], -1)
 
 # Step 4: Train the SVM classifier
-classifier = SVC(kernel='linear')
+classifier = SVC(kernel='linear', probability=True)
 classifier.fit(X_train_flat, y_train)
 
 # Step 5: Evaluate the model

@@ -1,4 +1,5 @@
 import cv2
+import numpy
 import numpy as np
 from joblib import load  # Import joblib for loading the model
 
@@ -38,15 +39,16 @@ def predict_image(image_path):
     image_flat = image_resized.flatten().reshape(1, -1)  # Flatten the image
 
     # Make the prediction
-    prediction = classifier.predict(image_flat)
+    predictions = classifier.predict_proba(image_flat)[0]
+    idx = numpy.argmax(predictions, axis=0)
     
-    return prediction[0]  # Return the predicted class index
+    return predictions, idx, predictions[idx]  # Return the predicted class index
 
 # Main function to run the program
 def main():
     for i in [
-    'blackEmpty',
-    'whiteEmpty',
+    #'blackEmpty',
+    #'whiteEmpty',
     'blackPawn',
     'blackBishop',
     'blackKnight',
@@ -64,11 +66,13 @@ def main():
         image_path = f"testing/{i}.png"
         
         # Get the predicted class
-        predicted_label_index = predict_image(image_path)
+        predicted_label_index, confidence = predict_image(image_path)
         
         if predicted_label_index is not None:
             # Print the corresponding class name
-            print(f"The predicted label is: {class_names[predicted_label_index]} for {i}")
+            if class_names[predicted_label_index] != i:
+                print("\033[0;31m", end="")
+            print(f"The predicted label is: {class_names[predicted_label_index]} for {i} with {confidence*100}% confidence\033[0m")
 
 # Run the main function
 if __name__ == "__main__":
