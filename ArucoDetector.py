@@ -189,7 +189,7 @@ if __name__ == "__main__":
     for row in squares:
         for square in row:
             square = ToPIL(square)
-            square.save(f"Raw Data 3/{seed}.png")
+            square.save(f"Raw Data 4/{seed}.png")
             seed += 1
         if seed >= 32:
             break
