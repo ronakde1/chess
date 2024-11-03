@@ -7,7 +7,6 @@ from keyboard import is_pressed
 import classify2
 from tensorflow.keras.preprocessing import image
 
-# Set up key mappings
 color_keys = {'d': 'black', 'l': 'white', 'y': 'accept'}
 piece_keys = {
     'k': 'King', 'q': 'Queen', 'r': 'Rook',
@@ -15,7 +14,6 @@ piece_keys = {
 }
 
 def create_output_dirs(output_dir):
-    """Create output subdirectories for each piece type and color combination."""
     categories = [
         "blackKing", "whiteKing",
         "blackQueen", "whiteQueen",
@@ -28,7 +26,6 @@ def create_output_dirs(output_dir):
         os.makedirs(os.path.join(output_dir, category), exist_ok=True)
 
 def wait_for_key(prompt, valid_keys):
-    """Wait until a valid key is pressed and return the key."""
     print(prompt)
     while True:
         for key in valid_keys:
@@ -67,7 +64,6 @@ def classify_image(image_path, output_dir):
 
     print(f"Classified as {classification}");
 
-    # Wait for color input
     color_key = wait_for_key("Press 'd' for dark or 'l' for light or 'y' for accept:", color_keys.keys())
 
     if color_key == 'y':
@@ -76,42 +72,32 @@ def classify_image(image_path, output_dir):
     else:
         color = color_keys[color_key]
 
-        # Wait for piece type input
         piece_key = wait_for_key(
             "Press 'k' for king, 'q' for queen, 'r' for rook, 'b' for bishop, 'n' for knight, 'p' for pawn, 'e' for empty:",
             piece_keys.keys()
         )
         piece = piece_keys[piece_key]
 
-        # Determine output category
-        if piece == "Empty":
-            category = "Empty"
-        else:
-            category = f"{color}{piece}"
-    
-    # Generate a unique filename using UUID
+        category = f"{color}{piece}"
+
     unique_filename = f"{uuid.uuid4()}.png"
     output_path = os.path.join(output_dir, category, unique_filename)
-    
-    # Save to the appropriate directory with the UUID-based filename
+
     shutil.copy(image_path, output_path)
     print(f"Saved {image_path} as {output_path}")
 
 def main(input_dir, output_dir):
-    # Create necessary output directories
     create_output_dirs(output_dir)
 
-    # Get all PNG images in the input directory
     images = glob.glob(os.path.join(input_dir, "*.png"))
 
-    # Process each image
     for index, image_path in enumerate(images):
         print(f"\nProcessing {image_path} ({index+1}/{len(images)})")
         classify_image(image_path, output_dir)
     print(f"Model accuracy: {100*correct_auto/len(images)}%")
 
 if __name__ == "__main__":
-    input_dir = "Raw Data 1"  # Set the path to your input directory here
-    output_dir = "Training Data"  # Set the path to your output directory here
+    input_dir = "RawData"
+    output_dir = "Training Data"
 
     main(input_dir, output_dir)

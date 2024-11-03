@@ -87,25 +87,20 @@ def ProjectBack(startSquare, endSquare, evaluation):
 
             warped_back = cv2.warpPerspective(warped_frame, h_inv, (frame.shape[1], frame.shape[0]))
 
-            # Ensure pts_src is ordered as a closed quadrilateral in clockwise or counterclockwise order
             ordered_pts_src = np.array([
-                pts_src[0],  # Top-left
-                pts_src[1],  # Top-right
-                pts_src[3],  # Bottom-right
-                pts_src[2]   # Bottom-left
+                pts_src[0],
+                pts_src[1],
+                pts_src[3],
+                pts_src[2]
             ], dtype=np.int32)
 
-            # Create a mask for the warped region to blend it into the original frame
             mask = np.zeros((frame.shape[0], frame.shape[1]), dtype=np.uint8)
-            
-            # Fill the mask with the quadrilateral defined by ordered_pts_src
+
             cv2.fillPoly(mask, [ordered_pts_src], 255)
 
-            # Erode the mask to avoid boundary artifacts
             element = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
             mask = cv2.erode(mask, element, iterations=3)
 
-            # Combine the warped image back into the original frame using the mask
             frame_masked = cv2.bitwise_and(frame, frame, mask=cv2.bitwise_not(mask))
             warped_back_masked = cv2.bitwise_and(warped_back, warped_back, mask=mask)
             im_out = cv2.add(frame_masked, warped_back_masked)
@@ -161,7 +156,6 @@ def DrawArrow(img, startSquare, endSquare, evaluation):
     textColor = (0, 255, 0) 
     textThickness = 2
 
-    # Draw the text next to the arrow
     imgWithArrow = cv2.flip(imgWithArrow, 0)
     cv2.putText(imgWithArrow, text, (text_x, text_y), font, fontScale, textColor, textThickness, cv2.LINE_AA)
     imgWithArrow = cv2.flip(imgWithArrow, 0)
@@ -177,18 +171,16 @@ def GetSquares():
     square_height = height // grid_size
 
     squares = [[] for _ in range(8)]
-    # Loop through each square position
+
     for row in range(grid_size):
         for col in range(grid_size):
-            # Calculate the coordinates of the current square
             left = col * square_width
             top = row * square_height
             right = left + square_width
             bottom = top + square_height
-            
-            # Crop the square and add it to the list
+
             square = board[top:bottom, left:right]
-            square = cv2.flip(square, 0) #Flip image
+            square = cv2.flip(square, 0)
             squares[7-row].append(square)
         
     # for row in squares:
