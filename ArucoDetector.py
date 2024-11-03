@@ -234,8 +234,6 @@ def stream():
             print("Failed to capture frame")
             break
         
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
         
         cv2.imshow('Frame', addHud(frame))
 
