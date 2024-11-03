@@ -4,12 +4,21 @@ import chessSolver
 import classify2
 from chess import Move, square_name
 import voice
+from time import perf_counter
+import logging
+
+logger = logging.getLogger(__name__)
 
 def main():
     voice.say("Charvis Online")
+    logging.basicConfig()
     while True:
+        logger.debug("Looking for board")
         images = ArucoDetector.GetSquares()
 
+        logger.debug(f"Got {len(images)} squares")
+        time_start = perf_counter()
+        
         fen_string = ""
         empty_count = 0
         for row in images:
@@ -28,8 +37,10 @@ def main():
             fen_string += "/"
         fen_string = fen_string[:-1]
 
-        print(fen_string)
+        logger.debug(f"Classified squares in {perf_counter()-time_start} s")
+        logger.info(f"Classified FEN string: {fen_string}")
         move = chessSolver.BestMove(fen_string)
+        logger.debug(f"Got best move in {perf_counter()-time_start} s")
         if move == Move.null:
             continue
         voice.saymove(square_name(move.from_square), square_name(move.to_square))
