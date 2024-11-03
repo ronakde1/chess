@@ -9,13 +9,13 @@ def saythis(initial,final):
     # Choose a male American voice
     voice = "en-US-GuyNeural"  # Example of a male American voice
 
-    async def main():
+    async def mainye():
         communicate = edge_tts.Communicate(text, voice)
         await communicate.save(output_file)
         #print(f"Audio content saved to {output_file}")
 
     # Run the async function
-    asyncio.run(main())
+    asyncio.run(mainye())
 
     # Play the audio file
     import os
