@@ -63,9 +63,9 @@ def classify_image(image_path, output_dir):
     img_arr = image.img_to_array(img)
     classification = classify2.classify_image(img_arr)
 
-    cv2.imshow(f"Classified as {classification}", img_arr / 255.0)
+    cv2.imshow(f"Classified as {categories[classification]}", img_arr / 255.0)
 
-    print(f"Classified as {classification}")
+    print(f"Classified as {categories[classification]}")
 
     color_key = wait_for_key("Press 'd' for dark or 'l' for light or 'y' for accept:", color_keys.keys())
 
