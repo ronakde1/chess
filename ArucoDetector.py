@@ -8,7 +8,7 @@ parameters =  aruco.DetectorParameters()
 detector = aruco.ArucoDetector(dictionary, parameters)
 cap = cv2.VideoCapture(1)
 
-def FindBoard(projectBack=False):
+def FindBoard():
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -45,7 +45,7 @@ def FindBoard(projectBack=False):
             
 
         else:
-            #cv2.imshow('Frame', frame_markers)
+            cv2.imshow('Frame', frame_markers)
             pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -113,6 +113,8 @@ def ProjectBack(startSquare, endSquare):
             im_out = cv2.add(frame_masked, warped_back_masked)
 
             cv2.imshow('Frame', im_out)
+        else:
+            cv2.imshow('Frame', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -143,8 +145,8 @@ def DrawArrow(img, startSquare, endSquare):
     xe = int((endx+0.5) * square_width)
     ye = int((endy+0.5) * square_height)
 
-    arrowColour = (0, 255, 0)
-    arrowWidth = 3
+    arrowColour = (0, 0, 255)
+    arrowWidth = 5
     imgWithArrow = cv2.arrowedLine(img, (ys,xs), (ye, xe), arrowColour, arrowWidth)
     return imgWithArrow
 
@@ -168,6 +170,7 @@ def GetSquares():
             
             # Crop the square and add it to the list
             square = board[top:bottom, left:right]
+            square = cv2.flip(square, 0) #Flip image
             squares[7-row].append(square)
         
     # for row in squares:
@@ -186,13 +189,13 @@ def ClassifySquare(img):
 if __name__ == "__main__":
     seed = 0
     squares = GetSquares()
-    for row in squares:
-        for square in row:
-            square = ToPIL(square)
-            square.save(f"Raw Data 4/{seed}.png")
-            seed += 1
-        if seed >= 16:
-            break
+    # for row in squares:
+    #     for square in row:
+    #         square = ToPIL(square)
+    #         square.save(f"Raw Data 4/{seed}.png")
+    #         seed += 1
+    #     if seed >= 16:
+    #         break
         
         
 # # board = None

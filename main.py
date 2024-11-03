@@ -2,6 +2,7 @@ import opencvrun2
 import ArucoDetector
 import chessSolver
 import classify2
+from chess import Move
 
 def main():
     while True:
@@ -27,6 +28,8 @@ def main():
 
         print(fen_string)
         move = chessSolver.BestMove(fen_string)
+        if move == Move.null:
+            continue
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)
         ArucoDetector.ProjectBack(fromSquare, toSquare)
