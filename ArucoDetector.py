@@ -2,13 +2,13 @@ import cv2
 import numpy as np
 from cv2 import aruco
 from PIL import Image
-import threading
+import asyncio
+import classify2
 
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
 parameters =  aruco.DetectorParameters()
 detector = aruco.ArucoDetector(dictionary, parameters)
 cap = cv2.VideoCapture(1)
-stop_stream = threading.Event()
 
 
 
@@ -227,8 +227,11 @@ def ClassifySquare(img):
     average = np.average(rgbImg, axis = (0,1))
     print(average)
 
-def stream():
-    while not stop_stream.is_set():
+# classify images in a separate thread while streaming images to avoid freezing up
+async def classifyBoardWhileStream(images) -> str:
+    classify_task = asyncio.create_task(classifyBoard(images))
+    print("Classify task created")
+    while not classify_task.done():
         ret, frame = cap.read()
         if not ret:
             print("Failed to capture frame")
@@ -236,9 +239,37 @@ def stream():
         
         
         cv2.imshow('Frame', addHud(frame))
+        
+        # sleep to give the other thread some time to execute
+        await asyncio.sleep(0.01)
+
+    print("Classify task done..?")
+    result = await classify_task
+    print("Result awaited")
+    return result
+
+async def classifyBoard(images) -> str:
+    print("ArucoDetector.py: classifyBoard ENTRY")
+    fen_string = ""
+    empty_count = 0
+    for row in images:
+        for image in row:
+            classified = classify2.classify_image(image)
+            if classified.lower() == "e":
+                empty_count += 1
+            else:
+                if empty_count > 0:
+                    fen_string += str(empty_count)
+                    empty_count = 0
+                fen_string += classified
+        if empty_count > 0:
+            fen_string += str(empty_count)
+            empty_count = 0
+        fen_string += "/"
+    print("ArucoDetector.py: classifyBoard EXIT")
+    return fen_string[:-1]
 
 if __name__ == "__main__":
-    # stream()
     seed = 0
     squares = GetSquares()
     for row in squares:
