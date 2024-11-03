@@ -29,6 +29,8 @@ def wait_for_key(prompt, valid_keys):
     print(prompt)
     while True:
         key = chr(cv2.waitKey())
+        if key == "q":
+            exit()
         print(f"Detected key: {key}")
         if key in valid_keys:
             return key
@@ -63,7 +65,8 @@ def classify_image(image_path, output_dir):
     img_arr = image.img_to_array(img)
     classification = classify2.classify_image(img_arr)
 
-    cv2.imshow(f"Classified as {categories[classification]}", img_arr / 255.0)
+    cv2.imshow(".", img_arr / 255.0)
+    cv2.setWindowTitle(".", f"Classified as {categories[classification]}")
 
     print(f"Classified as {categories[classification]}")
 
@@ -74,6 +77,7 @@ def classify_image(image_path, output_dir):
         correct_auto += 1
     else:
         color = color_keys[color_key]
+        cv2.setWindowTitle(".", f"Reclassified as {color}")
 
         piece_key = wait_for_key(
             "Press 'k' for king, 'q' for queen, 'r' for rook, 'b' for bishop, 'n' for knight, 'p' for pawn, 'e' for empty:",
@@ -82,14 +86,13 @@ def classify_image(image_path, output_dir):
         piece = piece_keys[piece_key]
 
         category = f"{color}{piece}"
+        cv2.setWindowTitle(".", f"Reclassified as {category}")
 
     unique_filename = f"{uuid.uuid4()}.png"
     output_path = os.path.join(output_dir, category, unique_filename)
 
     shutil.copy(image_path, output_path)
     print(f"Saved {image_path} as {output_path}")
-    # and finally destroy/close all open windows
-    cv2.destroyAllWindows()
 
 def main(input_dir, output_dir):
     create_output_dirs(output_dir)
@@ -100,6 +103,7 @@ def main(input_dir, output_dir):
         print(f"\nProcessing {image_path} ({index+1}/{len(images)})")
         classify_image(image_path, output_dir)
     print(f"Model accuracy: {100*correct_auto/len(images)}%")
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     input_dir = "RawData"
