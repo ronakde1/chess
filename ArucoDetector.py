@@ -138,7 +138,7 @@ def DrawArrow(img, startSquare, endSquare):
     xe = int((endx+0.5) * square_width)
     ye = int((endy+0.5) * square_height)
 
-    arrowColour = (219, 31, 175)
+    arrowColour = (219, 175, 31)
     arrowWidth = 4
     imgWithArrow = cv2.arrowedLine(img, (ys,xs), (ye, xe), arrowColour, arrowWidth)
 
