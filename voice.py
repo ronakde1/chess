@@ -60,4 +60,13 @@ def ignorethis():
         i=random.randint(0,1)
         os.system(f"open voice/{i}.mp3")
 
-win()
+def say(stringyeye):
+    text = f"{stringyeye}"
+    output_file = "voice/voiceoutput.mp3"
+    voice = "en-GB-RyanNeural"
+    async def mainye():
+        communicate = edge_tts.Communicate(text, voice)
+        await communicate.save(output_file)
+    asyncio.run(mainye())
+    import os
+    os.system("open voice/voiceoutput.mp3")
