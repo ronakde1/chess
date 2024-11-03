@@ -51,7 +51,11 @@ categories = {
     'R': 'whiteRook',
 }
 
+correct_auto = 0
+
 def classify_image(image_path, output_dir):
+    global correct_auto
+
     """Classify image based on key input and save it to the appropriate directory."""
     print(f"\nClassifying image: {image_path}")
     # Display image
@@ -68,6 +72,7 @@ def classify_image(image_path, output_dir):
 
     if color_key == 'y':
         category = categories[classification]
+        correct_auto += 1
     else:
         color = color_keys[color_key]
 
@@ -103,6 +108,7 @@ def main(input_dir, output_dir):
     for index, image_path in enumerate(images):
         print(f"\nProcessing {image_path} ({index+1}/{len(images)})")
         classify_image(image_path, output_dir)
+    print(f"Model accuracy: {100*correct_auto/len(images)}%")
 
 if __name__ == "__main__":
     input_dir = "Raw Data 1"  # Set the path to your input directory here
