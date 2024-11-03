@@ -8,7 +8,7 @@ parameters =  aruco.DetectorParameters()
 detector = aruco.ArucoDetector(dictionary, parameters)
 cap = cv2.VideoCapture(1)
 
-def FindBoard():
+def FindBoard(blueOverlay = True):
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -38,14 +38,12 @@ def FindBoard():
             h, _ = cv2.findHomography(pts_src, pts_dst)
 
             warped_frame = cv2.warpPerspective(frame, h, (side_length, side_length))
-            #warped_frame = cv2.flip(warped_frame, 1)
-            #cv2.destroyAllWindows()
-            #cv2.imshow("Board", warped_frame)
+            cv2.imshow('Frame', add_blue_overlay(warped_frame))
             return warped_frame
             
 
         else:
-            cv2.imshow('Frame', frame_markers)
+            cv2.imshow('Frame', add_blue_overlay(frame_markers))
             pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -199,6 +197,27 @@ def GetSquares():
     #         ClassifySquare(square)
     #         cv2.waitKey(0)
     return squares
+
+def add_blue_overlay(img, alpha=0.4, blue_intensity=255):
+    """
+    Adds a semi-transparent blue overlay to the input image.
+    
+    Parameters:
+    - img: The input image (in BGR format).
+    - alpha: The transparency of the overlay (0 to 1, where 0 is fully transparent and 1 is fully opaque).
+    - blue_intensity: The intensity of the blue channel in the overlay (0 to 255).
+    
+    Returns:
+    - The image with the blue overlay applied.
+    """
+    # Create a blue overlay with the same dimensions as the image
+    overlay = np.zeros_like(img, dtype=np.uint8)
+    overlay[:, :] = (blue_intensity, 0, 0)  # BGR format, with blue intensity
+
+    # Blend the overlay with the original image
+    img_with_overlay = cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)
+
+    return img_with_overlay
 
 def ClassifySquare(img):
     rgbImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
