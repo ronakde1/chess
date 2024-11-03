@@ -38,12 +38,12 @@ def FindBoard(blueOverlay = True):
             h, _ = cv2.findHomography(pts_src, pts_dst)
 
             warped_frame = cv2.warpPerspective(frame, h, (side_length, side_length))
-            cv2.imshow('Frame', add_blue_overlay(warped_frame))
+            cv2.imshow('Frame', addHud(warped_frame))
             return warped_frame
             
 
         else:
-            cv2.imshow('Frame', add_blue_overlay(frame_markers))
+            cv2.imshow('Frame', addHud(frame_markers))
             pass
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -105,9 +105,9 @@ def ProjectBack(startSquare, endSquare, evaluation):
             warped_back_masked = cv2.bitwise_and(warped_back, warped_back, mask=mask)
             im_out = cv2.add(frame_masked, warped_back_masked)
 
-            cv2.imshow('Frame', add_blue_overlay(im_out))
+            cv2.imshow('Frame', addHud(im_out))
         else:
-            cv2.imshow('Frame', add_blue_overlay(frame))
+            cv2.imshow('Frame', addHud(frame))
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -185,10 +185,29 @@ def GetSquares():
         
     # for row in squares:
     #     for square in row:
-    #         cv2.imshow("Square", square)
-    #         ClassifySquare(square)
+    #         cv2.imshow("SquaraddHud       ClassifySquare(square)
     #         cv2.waitKey(0)
     return squares
+
+def addHud(baseImg, position=(0, 0)):
+    overlayImg = cv2.imread("assets/hud.png")
+
+    x, y = position
+    overlayHeight, overlayWidth = overlayImg.shape[:2]
+
+    if overlayImg.shape[2] == 4:
+        alphaOverlay = overlayImg[:, :, 3] / 255.0
+        alphaBase = 1.0 - alphaOverlay
+
+        for c in range(0, 3):
+            baseImg[y:y + overlayHeight, x:x + overlayWidth, c] = (
+                alphaOverlay * overlayImg[:, :, c] +
+                alphaBase * baseImg[y:y + overlayHeight, x:x + overlayWidth, c]
+            )
+    else:
+        baseImg[y:y + overlayHeight, x:x + overlayWidth] = overlayImg
+
+    return baseImg
 
 def add_blue_overlay(img, alpha=0.4, blue_intensity=0):
     # Create a blue overlay with the same dimensions as the image
@@ -225,8 +244,7 @@ if __name__ == "__main__":
 
 
 # # while True:
-# #     cv2.imshow("square", board)
-# #     if cv2.waitKey(1) & 0xFF == ord('q'):
+# #     cv2.imshow("square",addHudif cv2.waitKey(1) & 0xFF == ord('q'):
 # #         break
 # #board.show()
 
@@ -251,6 +269,6 @@ if __name__ == "__main__":
     
 # iterable = iter(squares)
 # while True:
-#     cv2.imshow("sqaure", next(iterable))
+#     cv2.imshow("sqaure",addHud
 #     cv2.waitKey(0)
 
