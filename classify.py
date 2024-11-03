@@ -3,9 +3,9 @@ import shutil
 from PIL import Image
 import glob
 import uuid
-from keyboard import is_pressed
 import classify2
 from tensorflow.keras.preprocessing import image
+import cv2
 
 color_keys = {'d': 'black', 'l': 'white', 'y': 'accept'}
 piece_keys = {
@@ -28,10 +28,10 @@ def create_output_dirs(output_dir):
 def wait_for_key(prompt, valid_keys):
     print(prompt)
     while True:
-        for key in valid_keys:
-            if is_pressed(key):
-                print(f"Detected key: {key}")
-                return key
+        key = chr(cv2.waitKey())
+        print(f"Detected key: {key}")
+        if key in valid_keys:
+            return key
 
 categories = {
     'b': 'blackBishop',
@@ -40,12 +40,14 @@ categories = {
     'p': 'blackPawn',
     'q': 'blackQueen',
     'r': 'blackRook',
+    'e': 'blackEmpty',
     'B': 'whiteBishop',
     'K': 'whiteKing',
     'N': 'whiteKnight',
     'P': 'whitePawn',
     'Q': 'whiteQueen',
     'R': 'whiteRook',
+    'E': 'whiteEmpty',
 }
 
 correct_auto = 0
@@ -57,12 +59,13 @@ def classify_image(image_path, output_dir):
     print(f"\nClassifying image: {image_path}")
     # Display image
     img = Image.open(image_path)
-    img.show()
 
     img_arr = image.img_to_array(img)
     classification = classify2.classify_image(img_arr)
 
-    print(f"Classified as {classification}");
+    cv2.imshow(f"Classified as {classification}", img_arr / 255.0)
+
+    print(f"Classified as {classification}")
 
     color_key = wait_for_key("Press 'd' for dark or 'l' for light or 'y' for accept:", color_keys.keys())
 
@@ -85,6 +88,8 @@ def classify_image(image_path, output_dir):
 
     shutil.copy(image_path, output_path)
     print(f"Saved {image_path} as {output_path}")
+    # and finally destroy/close all open windows
+    cv2.destroyAllWindows()
 
 def main(input_dir, output_dir):
     create_output_dirs(output_dir)
@@ -98,6 +103,6 @@ def main(input_dir, output_dir):
 
 if __name__ == "__main__":
     input_dir = "RawData"
-    output_dir = "Training Data"
+    output_dir = "Training Data2"
 
     main(input_dir, output_dir)

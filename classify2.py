@@ -7,7 +7,7 @@ IMG_HEIGHT = 37
 IMG_WIDTH = 37
 MODEL_PATH = 'image_classifier_model.keras'
 CLASS_NAMES = [
-    "b", None, "k", "n", "p", "q", "r", "B", None, "K", "N", "P", "Q", "R",
+    "b", "e", "k", "n", "p", "q", "r", "B", "E", "K", "N", "P", "Q", "R",
 ]
 
 model = tf.keras.models.load_model(MODEL_PATH)

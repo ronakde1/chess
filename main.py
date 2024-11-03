@@ -24,7 +24,7 @@ def main():
         for row in images:
             for image in row:
                 classified = classify2.classify_image(image)
-                if classified is None:
+                if classified.lower() == "e":
                     empty_count += 1
                 else:
                     if empty_count > 0:
