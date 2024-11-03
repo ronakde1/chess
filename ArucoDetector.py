@@ -2,11 +2,15 @@ import cv2
 import numpy as np
 from cv2 import aruco
 from PIL import Image
+import threading
 
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
 parameters =  aruco.DetectorParameters()
 detector = aruco.ArucoDetector(dictionary, parameters)
 cap = cv2.VideoCapture(1)
+stop_stream = threading.Event()
+
+
 
 def FindBoard(blueOverlay = True):
     while True:
@@ -222,9 +226,21 @@ def ClassifySquare(img):
     rgbImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     average = np.average(rgbImg, axis = (0,1))
     print(average)
-    
+
+def stream():
+    while not stop_stream.is_set():
+        ret, frame = cap.read()
+        if not ret:
+            print("Failed to capture frame")
+            break
+        
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        
+        cv2.imshow('Frame', addHud(frame))
 
 if __name__ == "__main__":
+    # stream()
     seed = 0
     squares = GetSquares()
     for row in squares:
@@ -232,8 +248,8 @@ if __name__ == "__main__":
             square = ToPIL(square)
             square.save(f"Raw Data 2/{seed}.png")
             seed += 1
-        # if seed >= 16:
-        #     break
+        if seed >= 16:
+            break
         
         
 # # board = None

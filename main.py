@@ -6,12 +6,12 @@ from chess import Move, square_name
 import voice
 from time import perf_counter
 import logging
+import threading
 
 logger = logging.getLogger(__name__)
 
 def main():
     voice.say("Charvis Online")
-    logging.basicConfig()
     while True:
         logger.debug("Looking for board")
         images = ArucoDetector.GetSquares()
@@ -19,6 +19,12 @@ def main():
         logger.debug(f"Got {len(images)} squares")
         time_start = perf_counter()
         
+        # stream the camera feed in a separate thread so it doesn't freeze
+        # while we process stuff
+        ArucoDetector.stop_stream.clear()
+        stream_thread = threading.Thread(target=ArucoDetector.stream)
+        stream_thread.start()
+
         fen_string = ""
         empty_count = 0
         for row in images:
@@ -48,6 +54,9 @@ def main():
         voice.saymove(square_name(move.from_square), square_name(move.to_square))
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)
+
+        ArucoDetector.stop_stream.set()
+        assert (not stream_thread.is_alive(), "Stream thread didn't die?!")
         ArucoDetector.ProjectBack(fromSquare, toSquare)
     voice.win()
 
