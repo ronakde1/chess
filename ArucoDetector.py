@@ -130,7 +130,7 @@ def CropBoard(img, padding):
 def ToPIL(img):
     return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
-def DrawArrow(img, startSquare, endSquare):
+def DrawArrow(img, startSquare, endSquare, evaluation):
     grid_size = 8
     width, height, _ = img.shape
     square_width = width // grid_size
@@ -148,6 +148,19 @@ def DrawArrow(img, startSquare, endSquare):
     arrowColour = (0, 0, 255)
     arrowWidth = 5
     imgWithArrow = cv2.arrowedLine(img, (ys,xs), (ye, xe), arrowColour, arrowWidth)
+
+    text_x = int((ys + ye) / 2)
+    text_y = int((xs + xe) / 2)
+
+    text = str(evaluation)
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    fontScale = 1
+    textColor = (0, 0, 255) 
+    textThickness = 2
+
+    # Draw the text next to the arrow
+    cv2.putText(imgWithArrow, text, (text_x, text_y), font, fontScale, textColor, textThickness, cv2.LINE_AA)
+
     return imgWithArrow
 
 def GetSquares():

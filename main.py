@@ -27,12 +27,12 @@ def main():
         fen_string = fen_string[:-1]
 
         print(fen_string)
-        move = chessSolver.BestMove(fen_string)
+        move, evaluation = chessSolver.BestMove(fen_string)
         if move == Move.null:
             continue
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)
-        ArucoDetector.ProjectBack(fromSquare, toSquare)
+        ArucoDetector.ProjectBack(fromSquare, toSquare, evaluation)
 
 
 if __name__ == "__main__":
