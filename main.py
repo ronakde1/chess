@@ -29,13 +29,13 @@ def main():
         fen_string = fen_string[:-1]
 
         print(fen_string)
-        move, evaluation = chessSolver.BestMove(fen_string)
+        move = chessSolver.BestMove(fen_string)
         if move == Move.null:
             continue
-        voice.saythis(square_name(move.from_square), square_name(move.to_square))
+        voice.saymove(square_name(move.from_square), square_name(move.to_square))
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)
-        ArucoDetector.ProjectBack(fromSquare, toSquare, evaluation)
+        ArucoDetector.ProjectBack(fromSquare, toSquare)
 
 
 if __name__ == "__main__":

@@ -51,7 +51,7 @@ def FindBoard(blueOverlay = True):
 
     cap.release()
 
-def ProjectBack(startSquare, endSquare, evaluation):
+def ProjectBack(startSquare, endSquare):
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -82,7 +82,7 @@ def ProjectBack(startSquare, endSquare, evaluation):
 
             warped_frame = cv2.warpPerspective(frame, h, (side_length, side_length))
 
-            warped_frame = DrawArrow(warped_frame, startSquare, endSquare, evaluation)
+            warped_frame = DrawArrow(warped_frame, startSquare, endSquare)
             h_inv, _ = cv2.findHomography(pts_dst, pts_src)
 
             warped_back = cv2.warpPerspective(warped_frame, h_inv, (frame.shape[1], frame.shape[0]))
@@ -138,8 +138,8 @@ def DrawArrow(img, startSquare, endSquare, evaluation):
     xe = int((endx+0.5) * square_width)
     ye = int((endy+0.5) * square_height)
 
-    arrowColour = (0, 0, 255)
-    arrowWidth = 3
+    arrowColour = (219, 31, 175)
+    arrowWidth = 4
     imgWithArrow = cv2.arrowedLine(img, (ys,xs), (ye, xe), arrowColour, arrowWidth)
 
     text_x = int((xs + xe) / 2)
@@ -150,15 +150,15 @@ def DrawArrow(img, startSquare, endSquare, evaluation):
     else:
         text_y -= 4 
 
-    text = str(evaluation)
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    fontScale = 1
-    textColor = (0, 255, 0) 
-    textThickness = 2
+    # text = str(evaluation)
+    # font = cv2.FONT_HERSHEY_SIMPLEX
+    # fontScale = 1
+    # textColor = (0, 255, 0) 
+    # textThickness = 2
 
-    imgWithArrow = cv2.flip(imgWithArrow, 0)
-    cv2.putText(imgWithArrow, text, (text_x, text_y), font, fontScale, textColor, textThickness, cv2.LINE_AA)
-    imgWithArrow = cv2.flip(imgWithArrow, 0)
+    # imgWithArrow = cv2.flip(imgWithArrow, 0)
+    # cv2.putText(imgWithArrow, text, (text_x, text_y), font, fontScale, textColor, textThickness, cv2.LINE_AA)
+    # imgWithArrow = cv2.flip(imgWithArrow, 0)
 
     return imgWithArrow
 
