@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix
 from joblib import dump, load  # Import joblib for saving/loading models
+from sklearn.preprocessing import PolynomialFeatures
+
 
 # Step 1: Load images and labels
 def load_images_and_labels(data_directory):
@@ -47,6 +49,7 @@ X_train, X_test, y_train, y_test = train_test_split(images, labels, test_size=0.
 # Step 3: Feature extraction (using flattening for SVM)
 X_train_flat = X_train.reshape(X_train.shape[0], -1)
 X_test_flat = X_test.reshape(X_test.shape[0], -1)
+
 
 # Step 4: Train the SVM classifier
 classifier = SVC(kernel='linear', probability=True)
