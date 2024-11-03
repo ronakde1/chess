@@ -222,7 +222,7 @@ def ClassifySquare(img):
     rgbImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     average = np.average(rgbImg, axis = (0,1))
     print(average)
-    
+
 
 if __name__ == "__main__":
     seed = 0
