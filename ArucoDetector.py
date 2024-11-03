@@ -13,7 +13,7 @@ def FindBoard(blueOverlay = True):
         ret, frame = cap.read()
         if not ret:
             print("Failed to capture frame")
-            break
+            continue
         
         parameters =  aruco.DetectorParameters()
         corners, ids, rejectedImgPoints = detector.detectMarkers(frame)
@@ -190,18 +190,24 @@ def GetSquares():
     return squares
 
 def addHud(baseImg, position=(0, 0)):
-    overlayImg = cv2.imread("assets/hud.png")
-
+    overlayImg = cv2.imread("assets/hud.png", cv2.IMREAD_UNCHANGED)
     x, y = position
     overlayHeight, overlayWidth = overlayImg.shape[:2]
+    baseImg = baseImg.copy()
+
+    if x + overlayWidth > baseImg.shape[1] or y + overlayHeight > baseImg.shape[0]:
+        overlayWidth = min(overlayWidth, baseImg.shape[1] - x)
+        overlayHeight = min(overlayHeight, baseImg.shape[0] - y)
+        overlayImg = overlayImg[:overlayHeight, :overlayWidth]
 
     if overlayImg.shape[2] == 4:
+        overlayColor = overlayImg[:, :, :3]
         alphaOverlay = overlayImg[:, :, 3] / 255.0
-        alphaBase = 1.0 - alphaOverlay
+        alphaBase = 1 - alphaOverlay
 
-        for c in range(0, 3):
+        for c in range(3):
             baseImg[y:y + overlayHeight, x:x + overlayWidth, c] = (
-                alphaOverlay * overlayImg[:, :, c] +
+                alphaOverlay * overlayColor[:, :, c] +
                 alphaBase * baseImg[y:y + overlayHeight, x:x + overlayWidth, c]
             )
     else:
@@ -209,15 +215,8 @@ def addHud(baseImg, position=(0, 0)):
 
     return baseImg
 
-def add_blue_overlay(img, alpha=0.4, blue_intensity=0):
-    # Create a blue overlay with the same dimensions as the image
-    overlay = np.zeros_like(img, dtype=np.uint8)
-    overlay[:, :] = (blue_intensity, 0, 0)  # BGR format, with blue intensity
 
-    # Blend the overlay with the original image
-    img_with_overlay = cv2.addWeighted(overlay, alpha, img, 1 - alpha, 0)
 
-    return img_with_overlay
 
 def ClassifySquare(img):
     rgbImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
