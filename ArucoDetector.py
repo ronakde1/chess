@@ -110,9 +110,9 @@ def ProjectBack(startSquare, endSquare, evaluation):
             warped_back_masked = cv2.bitwise_and(warped_back, warped_back, mask=mask)
             im_out = cv2.add(frame_masked, warped_back_masked)
 
-            cv2.imshow('Frame', im_out)
+            cv2.imshow('Frame', add_blue_overlay(im_out))
         else:
-            cv2.imshow('Frame', frame)
+            cv2.imshow('Frame', add_blue_overlay(frame))
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -144,7 +144,7 @@ def DrawArrow(img, startSquare, endSquare, evaluation):
     ye = int((endy+0.5) * square_height)
 
     arrowColour = (0, 0, 255)
-    arrowWidth = 5
+    arrowWidth = 3
     imgWithArrow = cv2.arrowedLine(img, (ys,xs), (ye, xe), arrowColour, arrowWidth)
 
     text_x = int((xs + xe) / 2)
@@ -198,18 +198,7 @@ def GetSquares():
     #         cv2.waitKey(0)
     return squares
 
-def add_blue_overlay(img, alpha=0.4, blue_intensity=255):
-    """
-    Adds a semi-transparent blue overlay to the input image.
-    
-    Parameters:
-    - img: The input image (in BGR format).
-    - alpha: The transparency of the overlay (0 to 1, where 0 is fully transparent and 1 is fully opaque).
-    - blue_intensity: The intensity of the blue channel in the overlay (0 to 255).
-    
-    Returns:
-    - The image with the blue overlay applied.
-    """
+def add_blue_overlay(img, alpha=0.4, blue_intensity=0):
     # Create a blue overlay with the same dimensions as the image
     overlay = np.zeros_like(img, dtype=np.uint8)
     overlay[:, :] = (blue_intensity, 0, 0)  # BGR format, with blue intensity

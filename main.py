@@ -2,7 +2,8 @@
 import ArucoDetector
 import chessSolver
 import classify2
-from chess import Move
+from chess import Move, square_name
+import voice
 
 def main():
     while True:
@@ -30,6 +31,7 @@ def main():
         move, evaluation = chessSolver.BestMove(fen_string)
         if move == Move.null:
             continue
+        voice.saythis(square_name(move.from_square), square_name(move.to_square))
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)
         ArucoDetector.ProjectBack(fromSquare, toSquare, evaluation)
