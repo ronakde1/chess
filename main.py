@@ -39,14 +39,17 @@ def main():
 
         logger.debug(f"Classified squares in {perf_counter()-time_start} s")
         logger.info(f"Classified FEN string: {fen_string}")
-        move = chessSolver.BestMove(fen_string)
+        move, isWin = chessSolver.BestMove(fen_string)
         logger.debug(f"Got best move in {perf_counter()-time_start} s")
         if move == Move.null:
             continue
+        if isWin:
+            break
         voice.saymove(square_name(move.from_square), square_name(move.to_square))
         fromSquare = (move.from_square//8, move.from_square % 8)
         toSquare = (move.to_square//8, move.to_square % 8)
         ArucoDetector.ProjectBack(fromSquare, toSquare)
+    voice.win()
 
 
 if __name__ == "__main__":
