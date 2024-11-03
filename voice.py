@@ -1,0 +1,22 @@
+import asyncio
+import edge_tts
+def saythis(initial,final):
+    text = f"Move {initial} to {final}"
+
+    # Text to be converted into speech
+    output_file = "voice/en-US-GuyNeural.mp3"
+
+    # Choose a male American voice
+    voice = "en-US-GuyNeural"  # Example of a male American voice
+
+    async def main():
+        communicate = edge_tts.Communicate(text, voice)
+        await communicate.save(output_file)
+        #print(f"Audio content saved to {output_file}")
+
+    # Run the async function
+    asyncio.run(main())
+
+    # Play the audio file
+    import os
+    os.system("open voice/en-US-GuyNeural.mp3")  # Use 'start' for Windows, 'open' for macOS, 'xdg-open' for Linux
