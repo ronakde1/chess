@@ -1,4 +1,4 @@
-import opencvrun2
+#import opencvrun2
 import ArucoDetector
 import chessSolver
 import classify2

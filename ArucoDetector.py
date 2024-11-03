@@ -53,7 +53,7 @@ def FindBoard():
 
     cap.release()
 
-def ProjectBack(startSquare, endSquare):
+def ProjectBack(startSquare, endSquare, evaluation):
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -84,7 +84,7 @@ def ProjectBack(startSquare, endSquare):
 
             warped_frame = cv2.warpPerspective(frame, h, (side_length, side_length))
 
-            warped_frame = DrawArrow(warped_frame, startSquare, endSquare)
+            warped_frame = DrawArrow(warped_frame, startSquare, endSquare, evaluation)
             h_inv, _ = cv2.findHomography(pts_dst, pts_src)
 
             warped_back = cv2.warpPerspective(warped_frame, h_inv, (frame.shape[1], frame.shape[0]))
@@ -149,17 +149,24 @@ def DrawArrow(img, startSquare, endSquare, evaluation):
     arrowWidth = 5
     imgWithArrow = cv2.arrowedLine(img, (ys,xs), (ye, xe), arrowColour, arrowWidth)
 
-    text_x = int((ys + ye) / 2)
-    text_y = int((xs + xe) / 2)
+    text_x = int((xs + xe) / 2)
+    text_y = height - int((ys + ye) / 2)
+
+    if ys > ye:
+        text_y += 4  
+    else:
+        text_y -= 4 
 
     text = str(evaluation)
     font = cv2.FONT_HERSHEY_SIMPLEX
     fontScale = 1
-    textColor = (0, 0, 255) 
+    textColor = (0, 255, 0) 
     textThickness = 2
 
     # Draw the text next to the arrow
+    imgWithArrow = cv2.flip(imgWithArrow, 0)
     cv2.putText(imgWithArrow, text, (text_x, text_y), font, fontScale, textColor, textThickness, cv2.LINE_AA)
+    imgWithArrow = cv2.flip(imgWithArrow, 0)
 
     return imgWithArrow
 
