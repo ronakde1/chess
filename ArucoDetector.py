@@ -185,7 +185,7 @@ def GetSquares():
 
             square = board[top:bottom, left:right]
             square = cv2.flip(square, 0)
-            squares[7-row].append(square)
+            squares[row].append(square)
         
     # for row in squares:
     #     for square in row:
@@ -244,9 +244,9 @@ if __name__ == "__main__":
     for row in squares:
         for square in row:
             square = ToPIL(square)
-            square.save(f"Raw Data 2/{seed}.png")
+            square.save(f"Raw Data 4/{seed}.png")
             seed += 1
-        if seed >= 16:
+        if seed >= 32:
             break
         
         
