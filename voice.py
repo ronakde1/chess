@@ -1,6 +1,6 @@
 import asyncio
 import edge_tts
-def saythis(initial,final):
+def saymove(initial,final):
     text = f"Move {initial} to {final}"
     output_file = "voice/voiceoutput.mp3"
     voice = "en-GB-RyanNeural"
