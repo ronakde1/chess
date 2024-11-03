@@ -6,6 +6,7 @@ from chess import Move, square_name
 import voice
 
 def main():
+    voice.say("Charvis Online")
     while True:
         images = ArucoDetector.GetSquares()
 
