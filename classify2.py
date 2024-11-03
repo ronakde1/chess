@@ -21,10 +21,10 @@ def preprocess_image_array(img_array):
 
 def classify_image(img):
     img = preprocess_image_array(img)
-    predictions = model.predict(img)
+    predictions = model.predict(img, verbose=0)
     predicted_class_index = np.argmax(predictions[0])
     predicted_class = CLASS_NAMES[predicted_class_index]
     confidence = predictions[0][predicted_class_index]
-    print(f"Predicted Class: {predicted_class} with {confidence * 100:.2f}% confidence.")
+    #print(f"Predicted Class: {predicted_class} with {confidence * 100:.2f}% confidence.")
 
     return predicted_class
