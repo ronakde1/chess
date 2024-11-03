@@ -4,10 +4,10 @@ def saythis(initial,final):
     text = f"Move {initial} to {final}"
 
     # Text to be converted into speech
-    output_file = "voice/en-US-GuyNeural.mp3"
+    output_file = "voice/voiceoutput.mp3"
 
     # Choose a male American voice
-    voice = "en-US-GuyNeural"  # Example of a male American voice
+    voice = "en-GB-RyanNeural"  # Example of a male American voice
 
     async def mainye():
         communicate = edge_tts.Communicate(text, voice)
@@ -19,4 +19,4 @@ def saythis(initial,final):
 
     # Play the audio file
     import os
-    os.system("open voice/en-US-GuyNeural.mp3")  # Use 'start' for Windows, 'open' for macOS, 'xdg-open' for Linux
+    os.system("open voice/voiceoutput.mp3")  # Use 'start' for Windows, 'open' for macOS, 'xdg-open' for Linux
