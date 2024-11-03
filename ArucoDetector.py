@@ -123,7 +123,7 @@ def CropBoard(img, padding):
 def ToPIL(img):
     return Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
-def DrawArrow(img, startSquare, endSquare, evaluation):
+def DrawArrow(img, startSquare, endSquare):
     grid_size = 8
     width, height, _ = img.shape
     square_width = width // grid_size
