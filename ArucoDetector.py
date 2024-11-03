@@ -189,13 +189,13 @@ def ClassifySquare(img):
 if __name__ == "__main__":
     seed = 0
     squares = GetSquares()
-    # for row in squares:
-    #     for square in row:
-    #         square = ToPIL(square)
-    #         square.save(f"Raw Data 4/{seed}.png")
-    #         seed += 1
-    #     if seed >= 16:
-    #         break
+    for row in squares:
+        for square in row:
+            square = ToPIL(square)
+            square.save(f"Raw Data 2/{seed}.png")
+            seed += 1
+        # if seed >= 16:
+        #     break
         
         
 # # board = None
